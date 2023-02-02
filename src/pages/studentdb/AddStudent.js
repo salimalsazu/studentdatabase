@@ -1,28 +1,69 @@
+import { async } from '@firebase/util';
+import axios from 'axios';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 
 const AddStudent = () => {
+    const { register, handleSubmit } = useForm();
+    const navigate = useNavigate();
+
+    const handleAddStudent = async (data) => {
+
+
+        const stdatabase = {
+            ...data
+        }
+
+        // console.log(stdatabase);
+        try {
+            const res = await axios('http://localhost:5000/students', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify(stdatabase)
+            })
+            navigate('/dashboard/managestudents')
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Successfully add a Student',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
     return (
         <section className="p-6 ">
             <div>
                 <h1 className='text-left font-extrabold my-2' >Add Student</h1>
             </div>
-            <form novalidate="" action="" className="container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid">
+            <form onSubmit={handleSubmit(handleAddStudent)} novalidate="" action="" className="container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid">
 
 
                 <div className="flex gap-5">
                     <div className="w-full ">
-                        <input type="text" placeholder="First Name" className="input w-full  bg-gray-100 " />
+                        <input  {...register('firstname')} type="text" placeholder="First Name" className="input w-full  bg-gray-100 " required />
                     </div>
                     <div className="w-full">
-                        <input type="text" placeholder="Middle Name" className="input w-full bg-gray-100" />
+                        <input  {...register('middlename')} type="text" placeholder="Middle Name" className="input w-full bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input type="text" placeholder="Last Name" className="input w-full  bg-gray-100" />
+                        <input  {...register('lastname')} type="text" placeholder="Last Name" className="input w-full  bg-gray-100" required />
                     </div>
                 </div>
                 <div className='flex gap-5 justify-center items-center' >
                     <div className="w-full">
-                        <select className="select w-full  bg-gray-100">
+                        <select  {...register('class')} className="select w-full  bg-gray-100" required>
                             <option disabled selected>Select Class</option>
                             <option>1</option>
                             <option>2</option>
@@ -40,7 +81,7 @@ const AddStudent = () => {
                         </select>
                     </div>
                     <div className="w-full">
-                        <select className="select w-full bg-gray-100">
+                        <select  {...register('division')} className="select w-full bg-gray-100" required>
                             <option disabled selected>Select Division</option>
                             <option>A</option>
                             <option>B</option>
@@ -50,33 +91,33 @@ const AddStudent = () => {
                         </select>
                     </div>
                     <div className="w-full">
-                        <input type="number" maxLength="2" placeholder="Enter Roll No Number in Digits" className="input w-full  bg-gray-100" />
+                        <input  {...register('roll')} type="number" maxLength="2" placeholder="Enter Roll No Number in Digits" className="input w-full  bg-gray-100" required />
                     </div>
                 </div>
                 <div className='flex gap-5 '>
                     <div className="w-full">
-                        <input type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" />
+                        <input  {...register('address1')} type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" />
+                        <input  {...register('address2')} type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" required />
                     </div>
 
                 </div>
 
                 <div className='flex gap-5' >
                     <div className="w-full">
-                        <input type="text" placeholder="Landmark" className="input w-full  bg-gray-100" />
+                        <input  {...register('landmark')} type="text" placeholder="Landmark" className="input w-full  bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input type="text" placeholder="City" className="input w-full  bg-gray-100" />
+                        <input type="text" placeholder="City" className="input w-full  bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input type="number" maxlength="6" placeholder="pincode" className="input w-full  bg-gray-100" />
+                        <input  {...register('pincode')} type="number" maxlength="6" placeholder="pincode" className="input w-full  bg-gray-100" required />
                     </div>
                 </div>
 
                 <div className='flex justify-start '>
-                    <button className='px-14 py-2 bg-red-600 text-white rounded-lg' >Add Student</button>
+                    <button type='submit' className='px-14 py-2 bg-red-600 text-white rounded-lg' >Add Student</button>
                 </div>
             </form>
         </section>

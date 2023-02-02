@@ -5,7 +5,7 @@ import LeftNavbar from '../Shared/LeftNavbar';
 
 const Dashboard = () => {
     return (
-        <div className='flex mx-10 mt-10' >
+        <div className='flex mx-10 mt-5' >
             <aside className='mt-10' >
                 <LeftNavbar></LeftNavbar>
             </aside>

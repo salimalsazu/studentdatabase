@@ -1,9 +1,20 @@
 import React from 'react';
+import { useApi } from '../contextapi/ProviderContext';
+import { AiOutlineUser } from 'react-icons/ai';
 
 const Navbar = () => {
+    const { user } = useApi();
+
     return (
-        <div>
-            <h1>This is Navbar</h1>
+        <div className='flex justify-between mx-20 mt-14' >
+            <div>
+                <h1 className='text-3xl font-extrabold' >Logo</h1>
+            </div>
+
+            <div className='border rounded-lg bg-gray-100  px-8 py-2 flex justify-center items-center'>
+                <span className='mr-3' ><AiOutlineUser></AiOutlineUser></span>
+                <p>{user?.email}</p>
+            </div>
         </div>
     );
 };

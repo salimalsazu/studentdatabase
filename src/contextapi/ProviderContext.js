@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import { app } from '../firebase/firebase.config';
+import { initailState, studentReducer } from '../state/ProductState.js/ProductReducer';
+import { actionTypes } from '../state/ProductState.js/ActionType';
 
 
 export const contextApi = createContext();
@@ -9,6 +11,27 @@ const auth = getAuth(app);
 const ProviderContext = ({ children }) => {
     const [user, setUser] = useState('');
     const [loading, setLoading] = useState(true);
+
+    const [state, dispatch] = useReducer(studentReducer, initailState);
+
+    console.log(state);
+
+    useEffect(() => {
+        dispatch({ type: actionTypes.FETCHING_START })
+        fetch("http://localhost:5000/students")
+            .then(res => res.json())
+            .then(data => dispatch({ type: actionTypes.FETCHING_SUCCESS, payload: data.data }))
+            .catch(() => {
+                dispatch({
+                    type: actionTypes.FETCHING_ERROR
+                })
+            })
+
+    }, [])
+
+
+
+
     const googleProvider = new GoogleAuthProvider();
 
     //signup 
@@ -53,7 +76,9 @@ const ProviderContext = ({ children }) => {
         createUser,
         signIn,
         providerLogin,
-        logOut
+        logOut,
+        state,
+        dispatch
     }
 
     return (

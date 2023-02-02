@@ -2,10 +2,14 @@ import React from 'react';
 import { GrView } from 'react-icons/gr';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiDeleteBin5Line } from 'react-icons/ri';
+import { useApi } from '../../contextapi/ProviderContext';
 
 
 
 const ManageStudent = () => {
+
+    const { state: { students }
+    } = useApi();
     return (
         <div>
             <h1 className='text-left my-5 font-extrabold' >Manage Students</h1>
@@ -21,14 +25,16 @@ const ManageStudent = () => {
                     </tr>
                 </thead>
                 <tbody >
-                    <tr className="bg-gray-100 ">
-                        <td className="border px-4 py-2">John Doe</td>
-                        <td className="border px-4 py-2">2</td>
-                        <td className="border px-4 py-2">10</td>
-                        <td className="border py-2"><GrView></GrView></td>
-                        <td className="border py-2"><AiFillEdit></AiFillEdit></td>
-                        <td className="border py-2"><RiDeleteBin5Line></RiDeleteBin5Line></td>
-                    </tr>
+                    {
+                        students.map(student => <tr className="bg-gray-100 ">
+                            <td className="border px-4 py-2">{student.firstname}{student.middlename} {student.lastname}</td>
+                            <td className="border px-4 py-2">{student.class}</td>
+                            <td className="border px-4 py-2">{student.roll}</td>
+                            <td className="border py-2"><GrView></GrView></td>
+                            <td className="border py-2"><AiFillEdit></AiFillEdit></td>
+                            <td className="border py-2"><RiDeleteBin5Line></RiDeleteBin5Line></td>
+                        </tr>)
+                    }
                 </tbody>
             </table>
         </div>

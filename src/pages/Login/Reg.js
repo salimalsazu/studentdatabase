@@ -1,8 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast, Toaster } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useApi } from '../../contextapi/ProviderContext';
-
+import Swal from 'sweetalert2'
 
 const Reg = () => {
     const { createUser } = useApi();
@@ -20,6 +21,15 @@ const Reg = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                if (user) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
                 navigate(from, { replace: true });
             })
             .catch(error => {
@@ -30,7 +40,7 @@ const Reg = () => {
 
 
 
-   
+
 
     return (
 
@@ -70,8 +80,8 @@ const Reg = () => {
                 <p>Already have an account? <span className='text-blue-600' >
                     <Link to='/' >Login</Link>
                 </span> here </p>
+                <Toaster />
             </form>
-
         </div>
 
     );
