@@ -18,7 +18,7 @@ const ProviderContext = ({ children }) => {
 
     useEffect(() => {
         dispatch({ type: actionTypes.FETCHING_START })
-        fetch("http://localhost:5000/students")
+        fetch("https://studentdatabase.vercel.app/students")
             .then(res => res.json())
             .then(data => dispatch({ type: actionTypes.FETCHING_SUCCESS, payload: data.data }))
             .catch(() => {

@@ -1,16 +1,15 @@
-import { async } from '@firebase/util';
+
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+
 import Swal from 'sweetalert2'
 
 
 const AddStudent = () => {
-    const { register, handleSubmit } = useForm();
-    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleAddStudent = async (data) => {
+    const handleAddStudent = async (data, e) => {
 
 
         const stdatabase = {
@@ -19,14 +18,13 @@ const AddStudent = () => {
 
         // console.log(stdatabase);
         try {
-            const res = await axios('http://localhost:5000/students', {
+            const res = await axios('https://studentdatabase.vercel.app/students', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify(stdatabase)
             })
-            navigate('/dashboard/managestudents')
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -34,7 +32,7 @@ const AddStudent = () => {
                 showConfirmButton: false,
                 timer: 1500
             })
-
+            e.target.reset();
         } catch (error) {
             console.log(error)
         }
@@ -50,21 +48,23 @@ const AddStudent = () => {
             <form onSubmit={handleSubmit(handleAddStudent)} novalidate="" action="" className="container flex flex-col mx-auto space-y-12 ng-untouched ng-pristine ng-valid">
 
 
-                <div className="flex gap-5">
+                <div className="flex lg:flex-row flex-col gap-5">
                     <div className="w-full ">
-                        <input  {...register('firstname')} type="text" placeholder="First Name" className="input w-full  bg-gray-100 " required />
+                        <input  {...register('firstname', { required: true })} type="text" placeholder="First Name" className="input w-full  bg-gray-100" />
+                        {errors && <span className='text-red-500'>First Name is Mandatory</span>}
                     </div>
                     <div className="w-full">
                         <input  {...register('middlename')} type="text" placeholder="Middle Name" className="input w-full bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input  {...register('lastname')} type="text" placeholder="Last Name" className="input w-full  bg-gray-100" required />
+                        <input  {...register('lastname', { required: true })} type="text" placeholder="Last Name" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>Last Name is Mandatory</span>}
                     </div>
                 </div>
-                <div className='flex gap-5 justify-center items-center' >
+                <div className='flex lg:flex-row flex-col gap-5 justify-center items-center' >
                     <div className="w-full">
-                        <select  {...register('class')} className="select w-full  bg-gray-100" required>
-                            <option disabled selected>Select Class</option>
+                        <select required  {...register('class', { required: true })} className="select w-full  bg-gray-100" >
+                            <option disabled selected value="">Select Class</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -79,9 +79,10 @@ const AddStudent = () => {
                             <option>12</option>
 
                         </select>
+                        {errors && <span className='text-red-500'>Class is Mandatory</span>}
                     </div>
                     <div className="w-full">
-                        <select  {...register('division')} className="select w-full bg-gray-100" required>
+                        <select  {...register('division', { required: true })} className="select w-full bg-gray-100" required>
                             <option disabled selected>Select Division</option>
                             <option>A</option>
                             <option>B</option>
@@ -89,14 +90,17 @@ const AddStudent = () => {
                             <option>D</option>
                             <option>E</option>
                         </select>
+                        {errors && <span className='text-red-500'>Division is Mandatory</span>}
                     </div>
                     <div className="w-full">
-                        <input  {...register('roll')} type="number" maxLength="2" placeholder="Enter Roll No Number in Digits" className="input w-full  bg-gray-100" required />
+                        <input  {...register('roll', { required: true })} type="text" maxLength="2" placeholder="Enter Roll No Number in Digits" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>Roll must be two digit</span>}
                     </div>
                 </div>
-                <div className='flex gap-5 '>
+                <div className='flex lg:flex-row flex-col gap-5 '>
                     <div className="w-full">
-                        <input  {...register('address1')} type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" required />
+                        <input  {...register('address1', { required: true })} type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>Address is Mandatory</span>}
                     </div>
                     <div className="w-full">
                         <input  {...register('address2')} type="text" placeholder="Address Line 1" className="input w-full  bg-gray-100" required />
@@ -104,15 +108,18 @@ const AddStudent = () => {
 
                 </div>
 
-                <div className='flex gap-5' >
+                <div className='flex lg:flex-row flex-col gap-5' >
                     <div className="w-full">
-                        <input  {...register('landmark')} type="text" placeholder="Landmark" className="input w-full  bg-gray-100" required />
+                        <input  {...register('landmark', { required: true })} type="text" placeholder="Landmark" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>Landmark is Mandatory</span>}
                     </div>
                     <div className="w-full">
-                        <input {...register('city')} type="text" placeholder="City" className="input w-full  bg-gray-100" required />
+                        <input {...register('city', { required: true })} type="text" placeholder="City" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>City is Mandatory</span>}
                     </div>
                     <div className="w-full">
-                        <input  {...register('pincode')} type="number" maxlength="6" placeholder="pincode" className="input w-full  bg-gray-100" required />
+                        <input  {...register('pincode', { required: true })} type="text" maxLength="6" placeholder="pincode" className="input w-full  bg-gray-100" required />
+                        {errors && <span className='text-red-500'>Six digit pincode is Mandatory</span>}
                     </div>
                 </div>
 

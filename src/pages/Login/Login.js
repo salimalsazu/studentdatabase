@@ -40,15 +40,16 @@ const Login = () => {
                 const currentUser = {
                     email: user.email
                 }
-                if (user) {
+                if (currentUser) {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: 'Your work has been saved',
+                        title: 'Successfully login',
                         showConfirmButton: false,
                         timer: 1500
                     })
                 }
+                navigate(from, { replace: true });
                 console.log(currentUser)
             })
     }

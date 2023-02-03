@@ -8,6 +8,7 @@ import Reg from '../pages/Login/Reg'
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Details from "../pages/studentdb/Details";
 import EditData from "../pages/studentdb/EditData";
+import HomeDashboard from "../Dashboard/HomeDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
                 children: [
                     {
+                        path: '/dashboard',
+                        element: <HomeDashboard></HomeDashboard>
+                    },
+                    {
                         path: '/dashboard/addstudent',
                         element: <AddStudent></AddStudent>
                     },
@@ -28,12 +33,12 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: '/dashboard/details/:id',
-                        loader: ({ params }) => fetch(`http://localhost:5000/students/${params.id}`),
+                        loader: ({ params }) => fetch(`https://studentdatabase.vercel.app/students/${params.id}`),
                         element: <Details></Details>
                     },
                     {
-                        path: '/dashboard/details/:id',
-                        loader: ({ params }) => fetch(`http://localhost:5000/students/${params.id}`),
+                        path: '/dashboard/edit/:id',
+                        loader: ({ params }) => fetch(`https://studentdatabase.vercel.app/students/${params.id}`),
                         element: <EditData></EditData>
                     }
                 ]
