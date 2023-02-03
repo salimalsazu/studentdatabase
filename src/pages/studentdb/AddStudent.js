@@ -109,7 +109,7 @@ const AddStudent = () => {
                         <input  {...register('landmark')} type="text" placeholder="Landmark" className="input w-full  bg-gray-100" required />
                     </div>
                     <div className="w-full">
-                        <input type="text" placeholder="City" className="input w-full  bg-gray-100" required />
+                        <input {...register('city')} type="text" placeholder="City" className="input w-full  bg-gray-100" required />
                     </div>
                     <div className="w-full">
                         <input  {...register('pincode')} type="number" maxlength="6" placeholder="pincode" className="input w-full  bg-gray-100" required />

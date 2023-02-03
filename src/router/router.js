@@ -6,6 +6,8 @@ import AddStudent from "../pages/studentdb/AddStudent";
 import ManageStudent from "../pages/studentdb/ManageStudent";
 import Reg from '../pages/Login/Reg'
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Details from "../pages/studentdb/Details";
+import EditData from "../pages/studentdb/EditData";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +25,16 @@ export const router = createBrowserRouter([
                     {
                         path: '/dashboard/managestudent',
                         element: <ManageStudent></ManageStudent>
+                    },
+                    {
+                        path: '/dashboard/details/:id',
+                        loader: ({ params }) => fetch(`http://localhost:5000/students/${params.id}`),
+                        element: <Details></Details>
+                    },
+                    {
+                        path: '/dashboard/details/:id',
+                        loader: ({ params }) => fetch(`http://localhost:5000/students/${params.id}`),
+                        element: <EditData></EditData>
                     }
                 ]
             },
